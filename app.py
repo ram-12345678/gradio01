@@ -90,40 +90,5 @@ def handle_text_to_text():
     translated_text = text_to_text(text, src_lang, tgt_lang)
     return jsonify({'translated_text': translated_text})
 
-# Create Gradio interfaces
-text_to_speech_interface = gr.Interface(
-    fn=text_to_speech,
-    inputs=[gr.Textbox(label="Input Text"), gr.Textbox(label="Source Language", value="eng"), gr.Textbox(label="Target Language", value="arb")],
-    outputs=[gr.Audio(label="Output Audio")]
-)
-
-speech_to_speech_interface = gr.Interface(
-    fn=speech_to_speech,
-    inputs=[gr.Audio(type="filepath"), gr.Textbox(label="Source Language", value="eng"), gr.Textbox(label="Target Language", value="rus")],
-    outputs=[gr.Audio(label="Output Audio")]
-)
-
-speech_to_text_interface = gr.Interface(
-    fn=speech_to_text,
-    inputs=[gr.Audio(type="filepath"), gr.Textbox(label="Source Language", value="eng"), gr.Textbox(label="Target Language", value="ces")],
-    outputs=gr.Textbox(label="Translated Text")
-)
-
-text_to_text_interface = gr.Interface(
-    fn=text_to_text,
-    inputs=[gr.Textbox(label="Input Text"), gr.Textbox(label="Source Language", value="eng"), gr.Textbox(label="Target Language", value="ces")],
-    outputs=gr.Textbox(label="Translated Text")
-)
-
-# Combine all interfaces into a single tabbed interface
-app_interface = gr.TabbedInterface(
-    [text_to_speech_interface, speech_to_speech_interface, speech_to_text_interface, text_to_text_interface],
-    ["Text-to-Speech", "Speech-to-Speech", "Speech-to-Text", "Text-to-Text"]
-)
-
-@app.route('/gradio')
-def gradio_interface():
-    return app_interface.launch(inline=True)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
